@@ -23,6 +23,7 @@ namespace Pool
 
                 var service = context.Services.ToList();
                 var sub = context.Subscriptions.ToList();
+                List<Client> client;
                 WorkLoad();
                 
                 //Ввод личных данных клиентом.
@@ -52,7 +53,7 @@ namespace Pool
                 #region Услуги
                 if (certificate == 0)
                 {
-                    var client = new List<Client>()
+                    client = new List<Client>()
                     {
                         new Client() {FName = Fname, LName = Lname, Age = age, NumberPhone = numberPhone, MedicalExamination = certificate}
                     };
@@ -75,19 +76,21 @@ namespace Pool
                     int subId = Convert.ToInt32(Console.ReadLine());
 
                     Console.WriteLine("Способ оплаты 1 - единовременная, 0 - авансом:");
-                    string payment = default;
-                    int pay = Convert.ToInt32(Console.ReadLine());
-                    if (pay == 1)
+                    int payment = Convert.ToInt32(Console.ReadLine());
+                    if (payment == 1)
                     {
-                        payment = "Оплачено";
+                        client = new List<Client>()
+                        {
+                            new Client() {FName = Fname, LName = Lname, Age = age, NumberPhone = numberPhone, MedicalExamination = certificate, Payment = "Оплачено", ServiceId = serviceId, SubscriptionId = subId}
+                        };
                     }
                     else
-                        payment = "Авансом";
-
-                    var client = new List<Client>()
                     {
-                        new Client() {FName = Fname, LName = Lname, Age = age, NumberPhone = numberPhone, MedicalExamination = certificate, Payment = payment, ServiceId = serviceId, SubscriptionId = subId}
-                    };
+                        client = new List<Client>()
+                        {
+                            new Client() {FName = Fname, LName = Lname, Age = age, NumberPhone = numberPhone, MedicalExamination = certificate, Payment = "Авансом", ServiceId = serviceId, SubscriptionId = subId}
+                        };
+                    }
                     context.Clients.AddRange(client);
                 }
                 context.SaveChanges();
