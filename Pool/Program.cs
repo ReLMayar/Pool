@@ -23,6 +23,11 @@ namespace Pool
 
                 var service = context.Services.ToList();
                 var sub = context.Subscriptions.ToList();
+                if(service.Count == 0 && sub.Count == 0)
+                {
+                    DefaultData(out service, out sub);
+                }
+
                 List<Client> client;
                 WorkLoad();
                 
@@ -101,36 +106,28 @@ namespace Pool
         /// <summary>
         /// Данные по умолчанию.
         /// </summary>
-        private static void DefaultData()
+        private static void DefaultData(out List<Service> service, out List<Subscription> sub)
         {
-            var service = new List<Service>
+            service = new List<Service>
             {
-                new Service() { ServiceName = "Плавание" },
-                new Service() { ServiceName = "Водное поло" },
-                new Service() { ServiceName = "Дайвинг" },
-                new Service() { ServiceName = "Аквааэробика" },
+                new Service() { ServiceId = 1, ServiceName = "Плавание" },
+                new Service() { ServiceId = 2, ServiceName = "Водное поло" },
+                new Service() { ServiceId = 3, ServiceName = "Дайвинг" },
+                new Service() { ServiceId = 4, ServiceName = "Аквааэробика" },
             };
 
-            var sub = new List<Subscription>
+            sub = new List<Subscription>
             {
-                new Subscription() {QuantityOfOccupation = 1, Time = "1 час"},
-                new Subscription() {QuantityOfOccupation = 1, Time = "2 часа"},
-                new Subscription() {QuantityOfOccupation = 1, Time = "3 часа"},
-                new Subscription() {QuantityOfOccupation = 4, Time = "1 месяц"},
-                new Subscription() {QuantityOfOccupation = 12, Time = "3 месяца"},
-                new Subscription() {QuantityOfOccupation = 24, Time = "6 месяцев"},
-            };
-
-            var client = new List<Client>
-            {
-                new Client() {FName = "Фродо", LName = "Беггинс", Age = 25, NumberPhone = "+7-911-321-22-34", MedicalExamination = 1, Payment = "Оплачено", ServiceId = 1, SubscriptionId = 1},
-                new Client() {FName = "Перегринн", LName = "Тук", Age = 30, NumberPhone = "+7-982-234-55-66", MedicalExamination = 1, Payment = "Авансом", ServiceId = 2, SubscriptionId = 2},
-                new Client() {FName = "Питер", LName = "Макдермотт", Age = 29, NumberPhone = "+7-952-111-22-33", MedicalExamination = 0},
+                new Subscription() { SubscriptionId = 1, QuantityOfOccupation = 1, Time = "1 час"},
+                new Subscription() { SubscriptionId = 2, QuantityOfOccupation = 1, Time = "2 часа"},
+                new Subscription() { SubscriptionId = 3, QuantityOfOccupation = 1, Time = "3 часа"},
+                new Subscription() { SubscriptionId = 4, QuantityOfOccupation = 4, Time = "1 месяц"},
+                new Subscription() { SubscriptionId = 5, QuantityOfOccupation = 12, Time = "3 месяца"},
+                new Subscription() { SubscriptionId = 6, QuantityOfOccupation = 24, Time = "6 месяцев"},
             };
 
             context.Services.AddRange(service);
             context.Subscriptions.AddRange(sub);
-            context.Clients.AddRange(client);
             context.SaveChanges();
         }
 
